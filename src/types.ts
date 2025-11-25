@@ -226,6 +226,9 @@ export interface DetectOptions {
      */
     detectParent?: boolean;
 
+    /** Look only in one level above. The flag will be ignored if detectParent is set */
+    detectOnlyChannel?: boolean;
+
     // Internally used infos and caches
 
     /** For optimization, it is Object.keys(objects) */
@@ -256,6 +259,7 @@ export interface DetectorContext {
     ignoreEnums: boolean;
     sortedKeys: string[];
     favorId?: string;
+    detectAllPossibleDevices?: boolean;
 }
 
 export interface MatchedDetectorContext extends Omit<DetectorContext, 'result'> {

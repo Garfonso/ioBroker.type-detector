@@ -146,7 +146,7 @@ export class ChannelDetector {
             }
 
             // When the default role is assigned, then the users should know how to handle it,
-            // so we can be a bit more laxe if read/write is not set correctly because user
+            // so we can be a bit more laxe if read/write is not set correctly because the user
             // created it manually. Additionally, enum check should be not needed with default role because the role already
             // includes that.
 
@@ -163,7 +163,7 @@ export class ChannelDetector {
                     return false;
                 }
 
-                if (statePattern.enums && typeof statePattern.enums === 'function') {
+                if (typeof statePattern.enums === 'function') {
                     const enums = this._getEnumsForId(objects, id, sortedKeys);
                     if (!ignoreEnums && !statePattern.enums(objects[id], enums || [])) {
                         return false;
@@ -257,12 +257,21 @@ export class ChannelDetector {
                 }
             }
 
-            if (
-                (state.indicator ||
-                    (!usedInCurrentDevice.includes(stateId) && // not used in a current device and pattern
-                        (state.notSingle || !usedIds.includes(stateId)))) && // or not used globally
-                this._applyPattern(objects, stateId, state, ignoreEnums, sortedKeys)
-            ) {
+            if (state.indicator) {
+                // We always detect indicators even if one used for multiple devices
+            } else if (usedInCurrentDevice.includes(stateId)) {
+                // we already used this state in the current device
+                continue;
+            } else if (state.notSingle) {
+                // we already used this state in another device but notSingle is set
+            } else if (context.detectAllPossibleDevices) {
+                // No matter if used before, we want all possible devices
+            } else if (usedIds.includes(stateId)) {
+                // we already used this state in another device
+                continue;
+            }
+
+            if (this._applyPattern(objects, stateId, state, ignoreEnums, sortedKeys)) {
                 // we detected a state, copy InternalPatternControl
                 if (!result) {
                     result = JSON.parse(JSON.stringify(patterns[pattern])) as PatternControl; // can not be undefined here
@@ -274,7 +283,7 @@ export class ChannelDetector {
                 if (!result.states.find(({ id }) => id === stateId)) {
                     for (const checkState of result.states) {
                         if (checkState.name === state.name) {
-                            // If we already have a mapped ID we need to decide if we keep this ID or overrule it
+                            // If we already have a mapped ID, we need to decide if we keep this ID or overrule it
                             if (checkState.id) {
                                 let useThisMapping: boolean | undefined; // three-state flag
 
@@ -300,7 +309,7 @@ export class ChannelDetector {
                                 }
                                 if (useThisMapping === undefined) {
                                     // If one of the roles uses state as first level or is empty, then the other one is better.
-                                    // If both are not "state" then check how many levels the roles have, the more the better.
+                                    // If both are not "state" then check how many levels the roles have, the more, the better.
                                     // If same then not having "state" as first level will override the id, else not
                                     const stateIdRoleLevels = stateIdRole.split('.');
                                     const stateIdRoleLevelsCount = stateIdRoleLevels.length;
@@ -384,7 +393,11 @@ export class ChannelDetector {
     /**
      * Tries to find a device or channel (as fallback) where the state is in
      */
-    private static findParentChannelOrDevice(objects: Record<string, ioBroker.Object>, id: string): string | undefined {
+    private static findParentChannelOrDevice(
+        objects: Record<string, ioBroker.Object>,
+        id: string,
+        onlyChannel?: boolean,
+    ): string | undefined {
         if (!objects[id]) {
             // Object does not exist
             return;
@@ -403,9 +416,12 @@ export class ChannelDetector {
         }
 
         const obj = objects[id];
-        if (obj?.type === 'device') {
+        if (obj?.type === 'device' || (onlyChannel && obj?.type === 'channel')) {
             // We found a device object, use this
             return id;
+        }
+        if (onlyChannel) {
+            return undefined;
         }
         parts.pop();
         const upperLevelObjectId = parts.join('.');
@@ -440,6 +456,7 @@ export class ChannelDetector {
         id: string,
         keys: string[],
         checkParent = false,
+        checkOnlyInSameChannel = false,
     ): string[] {
         const type = objects[id]?.type;
         switch (type) {
@@ -456,6 +473,9 @@ export class ChannelDetector {
                 }
                 if (type !== 'state') {
                     return [...getObjectsBelowId(keys, id)];
+                } else if (checkOnlyInSameChannel) {
+                    const foundId = ChannelDetector.findParentChannelOrDevice(objects, id, true);
+                    return foundId && foundId !== id ? [...getObjectsBelowId(keys, foundId)] : [id];
                 }
                 return [id];
 
@@ -548,21 +568,29 @@ export class ChannelDetector {
             ignoreIndicators,
             prioritizedTypes,
             detectParent,
+            detectOnlyChannel,
             allowedTypes,
             excludedTypes,
             _keysOptional, // sorted keys
+            detectAllPossibleDevices,
         } = options;
         let { _patternList } = options;
 
         options._usedIdsOptional = usedIds;
 
-        const channelStates = ChannelDetector.getChannelOrDeviceStates(objects, id, _keysOptional || [], detectParent);
+        const channelStates = ChannelDetector.getChannelOrDeviceStates(
+            objects,
+            id,
+            _keysOptional || [],
+            detectParent,
+            detectOnlyChannel,
+        );
 
         // We have no ID for that object and also no objects below, so skip it
         if (!objects[id]?.common && !channelStates.length) {
             return null;
         }
-        options._checkedPatterns = options._checkedPatterns ?? [];
+        options._checkedPatterns ??= [];
 
         if (!_patternList) {
             const allPatterns = Object.keys(patterns).filter(pattern =>
@@ -583,6 +611,7 @@ export class ChannelDetector {
             ignoreEnums: !!options.ignoreEnums,
             sortedKeys: _keysOptional!,
             favorId: options.detectParent ? undefined : id,
+            detectAllPossibleDevices,
         };
 
         const currentType = objects[id]?.type;
@@ -741,6 +770,35 @@ export class ChannelDetector {
                 options._usedIdsOptional = [];
             }
         }
+
+        // We must place the devices which have initial ID on required place on the first places
+        // Then the controls with maximal amount of matched states
+        result.sort((a, b) => {
+            // place info on tha last place
+            if (a.type === Types.info && b.type !== Types.info) {
+                return 1;
+            }
+            if (b.type === Types.info && a.type !== Types.info) {
+                return -1;
+            }
+
+            const aHasRequiredId = a.states.find(s => s.id === id && s.required) ? 1 : 0;
+            const bHasRequiredId = b.states.find(s => s.id === id && s.required) ? 1 : 0;
+            if (aHasRequiredId !== bHasRequiredId) {
+                return bHasRequiredId - aHasRequiredId;
+            }
+            if (!aHasRequiredId) {
+                const aHasId = a.states.find(s => s.id === id) ? 1 : 0;
+                const bHasId = b.states.find(s => s.id === id) ? 1 : 0;
+                if (aHasId !== bHasId) {
+                    return bHasId - aHasId;
+                }
+            }
+
+            const aCount = a.states.filter(s => s.id).length;
+            const bCount = b.states.filter(s => s.id).length;
+            return bCount - aCount;
+        });
 
         this.cache[id] = result.length ? result : null;
 
