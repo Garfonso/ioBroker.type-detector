@@ -213,78 +213,75 @@ Chart with e-charts template.
 
 Light with CIE (International Commission on Illumination) color space (XY).
 
-| R | Name            | Role                          | Unit | Type          | Wr | Ind | Multi | Regex                                             |
-|---|-----------------|-------------------------------|------|---------------|----|-----|-------|---------------------------------------------------|
-| * | CIE             | level.color.cie               |      | string        | W  |     |       | `/^level\.color\.cie$/`                           |
-|   | DIMMER          | level.dimmer                  | %    | number        | W  |     |       | `/^level\.dimmer$/`                               |
-|   | BRIGHTNESS      |                               | %    | number        | W  |     |       | `/^level\.brightness$/`                           |
-|   | TEMPERATURE     | level.color.temperature       | °K   | number        | W  |     |       | `/^level\.color\.temperature$/`                   |
-|   | EFFECT          | level.effect                  |      | number/string | W  |     |       | `/^level\.effect$/`                               |
-|   | ON              | switch.light                  |      | boolean       | W  |     |       | `/^switch(\.light)?$/`                            |
-|   | ON_ACTUAL       | sensor.light                  |      | boolean       | -  |     |       | `/^(state｜switch｜sensor)\.light｜switch$/`         |
-|   | TRANSITION_TIME | time.span                     | ms   | number        | W  |     |       | `/^time\.(span｜interval)$/`                       |
-|   | ELECTRIC_POWER  | value.power                   | W    | number        | -  |     |       | `/^value\.power$/`                                |
-|   | CURRENT         | value.current                 | mA   | number        | -  |     |       | `/^value\.current$/`                              |
-|   | VOLTAGE         | value.voltage                 | V    | number        | -  |     |       | `/^value\.voltage$/`                              |
-|   | CONSUMPTION     | value.power.consumption       | Wh   | number        | -  |     |       | `/^value\.power\.consumption$/`                   |
-|   | FREQUENCY       | value.frequency               | Hz   | number        | -  |     |       | `/^value\.frequency$/`                            |
-|   | WORKING         | indicator.working             |      |               |    | X   |       | `/^indicator\.working$/`                          |
-|   | UNREACH         | indicator.maintenance.unreach |      | boolean       |    | X   |       | `/^indicator(\.maintenance)?\.unreach$/`          |
-|   | LOWBAT          | indicator.maintenance.lowbat  |      | boolean       |    | X   |       | `/^indicator(\.maintenance)?\.(lowbat｜battery)$/` |
-|   | MAINTAIN        | indicator.maintenance         |      | boolean       |    | X   |       | `/^indicator\.maintenance$/`                      |
-|   | ERROR           | indicator.error               |      |               |    | X   |       | `/^indicator\.error$/`                            |
-|   | BATTERY         | value.battery                 | %    | number        | -  |     |       | `/^value\.battery$/`                              |
+| R | Name            | Role                          | Unit | Type    | Wr | Ind | Multi | Regex                                             |
+|---|-----------------|-------------------------------|------|---------|----|-----|-------|---------------------------------------------------|
+| * | CIE             | level.color.cie               |      | string  | W  |     |       | `/^level\.color\.cie$/`                           |
+|   | DIMMER          | level.dimmer                  | %    | number  | W  |     |       | `/^level\.dimmer$/`                               |
+|   | BRIGHTNESS      |                               | %    | number  | W  |     |       | `/^level\.brightness$/`                           |
+|   | TEMPERATURE     | level.color.temperature       | °K   | number  | W  |     |       | `/^level\.color\.temperature$/`                   |
+|   | ON              | switch.light                  |      | boolean | W  |     |       | `/^switch(\.light)?$/`                            |
+|   | ON_ACTUAL       | sensor.light                  |      | boolean | -  |     |       | `/^(state｜switch｜sensor)\.light｜switch$/`         |
+|   | TRANSITION_TIME | time.span                     | ms   | number  | W  |     |       | `/^time\.(span｜interval)$/`                       |
+|   | ELECTRIC_POWER  | value.power                   | W    | number  | -  |     |       | `/^value\.power$/`                                |
+|   | CURRENT         | value.current                 | mA   | number  | -  |     |       | `/^value\.current$/`                              |
+|   | VOLTAGE         | value.voltage                 | V    | number  | -  |     |       | `/^value\.voltage$/`                              |
+|   | CONSUMPTION     | value.power.consumption       | Wh   | number  | -  |     |       | `/^value\.power\.consumption$/`                   |
+|   | FREQUENCY       | value.frequency               | Hz   | number  | -  |     |       | `/^value\.frequency$/`                            |
+|   | WORKING         | indicator.working             |      |         |    | X   |       | `/^indicator\.working$/`                          |
+|   | UNREACH         | indicator.maintenance.unreach |      | boolean |    | X   |       | `/^indicator(\.maintenance)?\.unreach$/`          |
+|   | LOWBAT          | indicator.maintenance.lowbat  |      | boolean |    | X   |       | `/^indicator(\.maintenance)?\.(lowbat｜battery)$/` |
+|   | MAINTAIN        | indicator.maintenance         |      | boolean |    | X   |       | `/^indicator\.maintenance$/`                      |
+|   | ERROR           | indicator.error               |      |         |    | X   |       | `/^indicator\.error$/`                            |
+|   | BATTERY         | value.battery                 | %    | number  | -  |     |       | `/^value\.battery$/`                              |
 
 
 ### Light with color temperature [ct]
 
 Light, where the color is set by color temperature (normally from 2700°K (warm-white) to 6000°K (cold-white)).
 
-| R | Name            | Role                          | Unit | Type          | Wr | Ind | Multi | Regex                                             |
-|---|-----------------|-------------------------------|------|---------------|----|-----|-------|---------------------------------------------------|
-| * | TEMPERATURE     | level.color.temperature       | °K   | number        | W  |     |       | `/^level\.color\.temperature$/`                   |
-|   | DIMMER          | level.dimmer                  | %    | number        | W  |     |       | `/^level\.dimmer$/`                               |
-|   | BRIGHTNESS      |                               |      | number        | W  |     |       | `/^level\.brightness$/`                           |
-|   | ON              | switch.light                  |      | boolean       | W  |     |       | `/^switch(\.light)?$/`                            |
-|   | ON_ACTUAL       | sensor.light                  |      | boolean       | -  |     |       | `/^(state｜switch｜sensor)\.light｜switch$/`         |
-|   | EFFECT          | level.effect                  |      | number/string | W  |     |       | `/^level\.effect$/`                               |
-|   | TRANSITION_TIME | time.span                     | ms   | number        | W  |     |       | `/^time\.(span｜interval)$/`                       |
-|   | ELECTRIC_POWER  | value.power                   | W    | number        | -  |     |       | `/^value\.power$/`                                |
-|   | CURRENT         | value.current                 | mA   | number        | -  |     |       | `/^value\.current$/`                              |
-|   | VOLTAGE         | value.voltage                 | V    | number        | -  |     |       | `/^value\.voltage$/`                              |
-|   | CONSUMPTION     | value.power.consumption       | Wh   | number        | -  |     |       | `/^value\.power\.consumption$/`                   |
-|   | FREQUENCY       | value.frequency               | Hz   | number        | -  |     |       | `/^value\.frequency$/`                            |
-|   | WORKING         | indicator.working             |      |               |    | X   |       | `/^indicator\.working$/`                          |
-|   | UNREACH         | indicator.maintenance.unreach |      | boolean       |    | X   |       | `/^indicator(\.maintenance)?\.unreach$/`          |
-|   | LOWBAT          | indicator.maintenance.lowbat  |      | boolean       |    | X   |       | `/^indicator(\.maintenance)?\.(lowbat｜battery)$/` |
-|   | MAINTAIN        | indicator.maintenance         |      | boolean       |    | X   |       | `/^indicator\.maintenance$/`                      |
-|   | ERROR           | indicator.error               |      |               |    | X   |       | `/^indicator\.error$/`                            |
-|   | BATTERY         | value.battery                 | %    | number        | -  |     |       | `/^value\.battery$/`                              |
+| R | Name            | Role                          | Unit | Type    | Wr | Ind | Multi | Regex                                             |
+|---|-----------------|-------------------------------|------|---------|----|-----|-------|---------------------------------------------------|
+| * | TEMPERATURE     | level.color.temperature       | °K   | number  | W  |     |       | `/^level\.color\.temperature$/`                   |
+|   | DIMMER          | level.dimmer                  | %    | number  | W  |     |       | `/^level\.dimmer$/`                               |
+|   | BRIGHTNESS      |                               |      | number  | W  |     |       | `/^level\.brightness$/`                           |
+|   | ON              | switch.light                  |      | boolean | W  |     |       | `/^switch(\.light)?$/`                            |
+|   | ON_ACTUAL       | sensor.light                  |      | boolean | -  |     |       | `/^(state｜switch｜sensor)\.light｜switch$/`         |
+|   | TRANSITION_TIME | time.span                     | ms   | number  | W  |     |       | `/^time\.(span｜interval)$/`                       |
+|   | ELECTRIC_POWER  | value.power                   | W    | number  | -  |     |       | `/^value\.power$/`                                |
+|   | CURRENT         | value.current                 | mA   | number  | -  |     |       | `/^value\.current$/`                              |
+|   | VOLTAGE         | value.voltage                 | V    | number  | -  |     |       | `/^value\.voltage$/`                              |
+|   | CONSUMPTION     | value.power.consumption       | Wh   | number  | -  |     |       | `/^value\.power\.consumption$/`                   |
+|   | FREQUENCY       | value.frequency               | Hz   | number  | -  |     |       | `/^value\.frequency$/`                            |
+|   | WORKING         | indicator.working             |      |         |    | X   |       | `/^indicator\.working$/`                          |
+|   | UNREACH         | indicator.maintenance.unreach |      | boolean |    | X   |       | `/^indicator(\.maintenance)?\.unreach$/`          |
+|   | LOWBAT          | indicator.maintenance.lowbat  |      | boolean |    | X   |       | `/^indicator(\.maintenance)?\.(lowbat｜battery)$/` |
+|   | MAINTAIN        | indicator.maintenance         |      | boolean |    | X   |       | `/^indicator\.maintenance$/`                      |
+|   | ERROR           | indicator.error               |      |         |    | X   |       | `/^indicator\.error$/`                            |
+|   | BATTERY         | value.battery                 | %    | number  | -  |     |       | `/^value\.battery$/`                              |
 
 
 ### Light dimmer [dimmer]
 
 Dimmer, that is controlled by state (normally from 0 to 100 %, but it could be any limits).
 
-| R | Name            | Role                          | Unit | Type          | Wr | Enum | Ind | Multi | Regex                                             |
-|---|-----------------|-------------------------------|------|---------------|----|------|-----|-------|---------------------------------------------------|
-| * | SET             | level.dimmer                  | %    | number        | W  | E    |     |       | `/^level(\.dimmer)?$｜^level\.brightness$/`        |
-|   | ACTUAL          | value.dimmer                  | %    | number        | -  | E    |     |       | `/^value(\.dimmer)?$/`                            |
-|   | ON_SET          | switch.light                  |      | boolean       | W  | E    |     |       | `/^switch(\.light)?$｜^state$/`                    |
-|   | EFFECT          | level.effect                  |      | number/string | W  |      |     |       | `/^level\.effect$/`                               |
-|   | ON_ACTUAL       | sensor.light                  |      | boolean       | -  | E    |     |       | `/^(state｜switch｜sensor)\.light｜switch$/`         |
-|   | TRANSITION_TIME | time.span                     | ms   | number        | W  | E    |     |       | `/^time\.(span｜interval)$/`                       |
-|   | ELECTRIC_POWER  | value.power                   | W    | number        | -  |      |     |       | `/^value\.power$/`                                |
-|   | CURRENT         | value.current                 | mA   | number        | -  |      |     |       | `/^value\.current$/`                              |
-|   | VOLTAGE         | value.voltage                 | V    | number        | -  |      |     |       | `/^value\.voltage$/`                              |
-|   | CONSUMPTION     | value.power.consumption       | Wh   | number        | -  |      |     |       | `/^value\.power\.consumption$/`                   |
-|   | FREQUENCY       | value.frequency               | Hz   | number        | -  |      |     |       | `/^value\.frequency$/`                            |
-|   | WORKING         | indicator.working             |      |               |    |      | X   |       | `/^indicator\.working$/`                          |
-|   | UNREACH         | indicator.maintenance.unreach |      | boolean       |    |      | X   |       | `/^indicator(\.maintenance)?\.unreach$/`          |
-|   | LOWBAT          | indicator.maintenance.lowbat  |      | boolean       |    |      | X   |       | `/^indicator(\.maintenance)?\.(lowbat｜battery)$/` |
-|   | MAINTAIN        | indicator.maintenance         |      | boolean       |    |      | X   |       | `/^indicator\.maintenance$/`                      |
-|   | ERROR           | indicator.error               |      |               |    |      | X   |       | `/^indicator\.error$/`                            |
-|   | BATTERY         | value.battery                 | %    | number        | -  |      |     |       | `/^value\.battery$/`                              |
+| R | Name            | Role                          | Unit | Type    | Wr | Enum | Ind | Multi | Regex                                             |
+|---|-----------------|-------------------------------|------|---------|----|------|-----|-------|---------------------------------------------------|
+| * | SET             | level.dimmer                  | %    | number  | W  | E    |     |       | `/^level(\.dimmer)?$｜^level\.brightness$/`        |
+|   | ACTUAL          | value.dimmer                  | %    | number  | -  | E    |     |       | `/^value(\.dimmer)?$/`                            |
+|   | ON_SET          | switch.light                  |      | boolean | W  | E    |     |       | `/^switch(\.light)?$｜^state$/`                    |
+|   | ON_ACTUAL       | sensor.light                  |      | boolean | -  | E    |     |       | `/^(state｜switch｜sensor)\.light｜switch$/`         |
+|   | TRANSITION_TIME | time.span                     | ms   | number  | W  | E    |     |       | `/^time\.(span｜interval)$/`                       |
+|   | ELECTRIC_POWER  | value.power                   | W    | number  | -  |      |     |       | `/^value\.power$/`                                |
+|   | CURRENT         | value.current                 | mA   | number  | -  |      |     |       | `/^value\.current$/`                              |
+|   | VOLTAGE         | value.voltage                 | V    | number  | -  |      |     |       | `/^value\.voltage$/`                              |
+|   | CONSUMPTION     | value.power.consumption       | Wh   | number  | -  |      |     |       | `/^value\.power\.consumption$/`                   |
+|   | FREQUENCY       | value.frequency               | Hz   | number  | -  |      |     |       | `/^value\.frequency$/`                            |
+|   | WORKING         | indicator.working             |      |         |    |      | X   |       | `/^indicator\.working$/`                          |
+|   | UNREACH         | indicator.maintenance.unreach |      | boolean |    |      | X   |       | `/^indicator(\.maintenance)?\.unreach$/`          |
+|   | LOWBAT          | indicator.maintenance.lowbat  |      | boolean |    |      | X   |       | `/^indicator(\.maintenance)?\.(lowbat｜battery)$/` |
+|   | MAINTAIN        | indicator.maintenance         |      | boolean |    |      | X   |       | `/^indicator\.maintenance$/`                      |
+|   | ERROR           | indicator.error               |      |         |    |      | X   |       | `/^indicator\.error$/`                            |
+|   | BATTERY         | value.battery                 | %    | number  | -  |      |     |       | `/^value\.battery$/`                              |
 
 
 ### Door sensor [door]
@@ -350,28 +347,27 @@ Control of the gates. You can open (true) or close (false) the gate. Optionally,
 
 HUE light from 0° to 360°.
 
-| R | Name            | Role                          | Unit | Type          | Wr | Ind | Multi | Regex                                             |
-|---|-----------------|-------------------------------|------|---------------|----|-----|-------|---------------------------------------------------|
-| * | HUE             | level.color.hue               | °    | number        | W  |     |       | `/^level\.color\.hue$/`                           |
-|   | DIMMER          | level.dimmer                  | %    | number        | W  |     |       | `/^level\.dimmer$/`                               |
-|   | BRIGHTNESS      |                               |      | number        | W  |     |       | `/^level\.brightness$/`                           |
-|   | SATURATION      | level.color.saturation        | %    | number        | W  |     |       | `/^level\.color\.saturation$/`                    |
-|   | TEMPERATURE     | level.color.temperature       | °K   | number        | W  |     |       | `/^level\.color\.temperature$/`                   |
-|   | EFFECT          | level.effect                  |      | number/string | W  |     |       | `/^level\.effect$/`                               |
-|   | ON              | switch.light                  |      | boolean       | W  |     |       | `/^switch(\.light)?$/`                            |
-|   | ON_ACTUAL       | sensor.light                  |      | boolean       | -  |     |       | `/^(state｜switch｜sensor)\.light｜switch$/`         |
-|   | TRANSITION_TIME | time.span                     | ms   | number        | W  |     |       | `/^time\.(span｜interval)$/`                       |
-|   | ELECTRIC_POWER  | value.power                   | W    | number        | -  |     |       | `/^value\.power$/`                                |
-|   | CURRENT         | value.current                 | mA   | number        | -  |     |       | `/^value\.current$/`                              |
-|   | VOLTAGE         | value.voltage                 | V    | number        | -  |     |       | `/^value\.voltage$/`                              |
-|   | CONSUMPTION     | value.power.consumption       | Wh   | number        | -  |     |       | `/^value\.power\.consumption$/`                   |
-|   | FREQUENCY       | value.frequency               | Hz   | number        | -  |     |       | `/^value\.frequency$/`                            |
-|   | WORKING         | indicator.working             |      |               |    | X   |       | `/^indicator\.working$/`                          |
-|   | UNREACH         | indicator.maintenance.unreach |      | boolean       |    | X   |       | `/^indicator(\.maintenance)?\.unreach$/`          |
-|   | LOWBAT          | indicator.maintenance.lowbat  |      | boolean       |    | X   |       | `/^indicator(\.maintenance)?\.(lowbat｜battery)$/` |
-|   | MAINTAIN        | indicator.maintenance         |      | boolean       |    | X   |       | `/^indicator\.maintenance$/`                      |
-|   | ERROR           | indicator.error               |      |               |    | X   |       | `/^indicator\.error$/`                            |
-|   | BATTERY         | value.battery                 | %    | number        | -  |     |       | `/^value\.battery$/`                              |
+| R | Name            | Role                          | Unit | Type    | Wr | Ind | Multi | Regex                                             |
+|---|-----------------|-------------------------------|------|---------|----|-----|-------|---------------------------------------------------|
+| * | HUE             | level.color.hue               | °    | number  | W  |     |       | `/^level\.color\.hue$/`                           |
+|   | DIMMER          | level.dimmer                  | %    | number  | W  |     |       | `/^level\.dimmer$/`                               |
+|   | BRIGHTNESS      |                               |      | number  | W  |     |       | `/^level\.brightness$/`                           |
+|   | SATURATION      | level.color.saturation        | %    | number  | W  |     |       | `/^level\.color\.saturation$/`                    |
+|   | TEMPERATURE     | level.color.temperature       | °K   | number  | W  |     |       | `/^level\.color\.temperature$/`                   |
+|   | ON              | switch.light                  |      | boolean | W  |     |       | `/^switch(\.light)?$/`                            |
+|   | ON_ACTUAL       | sensor.light                  |      | boolean | -  |     |       | `/^(state｜switch｜sensor)\.light｜switch$/`         |
+|   | TRANSITION_TIME | time.span                     | ms   | number  | W  |     |       | `/^time\.(span｜interval)$/`                       |
+|   | ELECTRIC_POWER  | value.power                   | W    | number  | -  |     |       | `/^value\.power$/`                                |
+|   | CURRENT         | value.current                 | mA   | number  | -  |     |       | `/^value\.current$/`                              |
+|   | VOLTAGE         | value.voltage                 | V    | number  | -  |     |       | `/^value\.voltage$/`                              |
+|   | CONSUMPTION     | value.power.consumption       | Wh   | number  | -  |     |       | `/^value\.power\.consumption$/`                   |
+|   | FREQUENCY       | value.frequency               | Hz   | number  | -  |     |       | `/^value\.frequency$/`                            |
+|   | WORKING         | indicator.working             |      |         |    | X   |       | `/^indicator\.working$/`                          |
+|   | UNREACH         | indicator.maintenance.unreach |      | boolean |    | X   |       | `/^indicator(\.maintenance)?\.unreach$/`          |
+|   | LOWBAT          | indicator.maintenance.lowbat  |      | boolean |    | X   |       | `/^indicator(\.maintenance)?\.(lowbat｜battery)$/` |
+|   | MAINTAIN        | indicator.maintenance         |      | boolean |    | X   |       | `/^indicator\.maintenance$/`                      |
+|   | ERROR           | indicator.error               |      |         |    | X   |       | `/^indicator\.error$/`                            |
+|   | BATTERY         | value.battery                 | %    | number  | -  |     |       | `/^value\.battery$/`                              |
 
 
 ### Humidity [humidity]
@@ -451,22 +447,21 @@ Slider with position set by number. Could be used for any device that is control
 
 Light with only ON/OFF options. Could have information about current, amperage, energy and power.
 
-| R | Name           | Role                          | Unit | Type          | Wr | Enum | Ind | Multi | Regex                                             |
-|---|----------------|-------------------------------|------|---------------|----|------|-----|-------|---------------------------------------------------|
-| * | SET            | switch.light                  |      | boolean       | W  | E    |     |       | `/^switch(\.light)?$｜^state$/`                    |
-|   | ON_ACTUAL      | sensor.light                  |      | boolean       | -  | E    |     |       | `/^(state｜switch｜sensor)\.light｜switch$/`         |
-|   | EFFECT         | level.effect                  |      | number/string | W  |      |     |       | `/^level\.effect$/`                               |
-|   | ELECTRIC_POWER | value.power                   | W    | number        | -  |      |     |       | `/^value\.power$/`                                |
-|   | CURRENT        | value.current                 | mA   | number        | -  |      |     |       | `/^value\.current$/`                              |
-|   | VOLTAGE        | value.voltage                 | V    | number        | -  |      |     |       | `/^value\.voltage$/`                              |
-|   | CONSUMPTION    | value.power.consumption       | Wh   | number        | -  |      |     |       | `/^value\.power\.consumption$/`                   |
-|   | FREQUENCY      | value.frequency               | Hz   | number        | -  |      |     |       | `/^value\.frequency$/`                            |
-|   | WORKING        | indicator.working             |      |               |    |      | X   |       | `/^indicator\.working$/`                          |
-|   | UNREACH        | indicator.maintenance.unreach |      | boolean       |    |      | X   |       | `/^indicator(\.maintenance)?\.unreach$/`          |
-|   | LOWBAT         | indicator.maintenance.lowbat  |      | boolean       |    |      | X   |       | `/^indicator(\.maintenance)?\.(lowbat｜battery)$/` |
-|   | MAINTAIN       | indicator.maintenance         |      | boolean       |    |      | X   |       | `/^indicator\.maintenance$/`                      |
-|   | ERROR          | indicator.error               |      |               |    |      | X   |       | `/^indicator\.error$/`                            |
-|   | BATTERY        | value.battery                 | %    | number        | -  |      |     |       | `/^value\.battery$/`                              |
+| R | Name           | Role                          | Unit | Type    | Wr | Enum | Ind | Multi | Regex                                             |
+|---|----------------|-------------------------------|------|---------|----|------|-----|-------|---------------------------------------------------|
+| * | SET            | switch.light                  |      | boolean | W  | E    |     |       | `/^switch(\.light)?$｜^state$/`                    |
+|   | ON_ACTUAL      | sensor.light                  |      | boolean | -  | E    |     |       | `/^(state｜switch｜sensor)\.light｜switch$/`         |
+|   | ELECTRIC_POWER | value.power                   | W    | number  | -  |      |     |       | `/^value\.power$/`                                |
+|   | CURRENT        | value.current                 | mA   | number  | -  |      |     |       | `/^value\.current$/`                              |
+|   | VOLTAGE        | value.voltage                 | V    | number  | -  |      |     |       | `/^value\.voltage$/`                              |
+|   | CONSUMPTION    | value.power.consumption       | Wh   | number  | -  |      |     |       | `/^value\.power\.consumption$/`                   |
+|   | FREQUENCY      | value.frequency               | Hz   | number  | -  |      |     |       | `/^value\.frequency$/`                            |
+|   | WORKING        | indicator.working             |      |         |    |      | X   |       | `/^indicator\.working$/`                          |
+|   | UNREACH        | indicator.maintenance.unreach |      | boolean |    |      | X   |       | `/^indicator(\.maintenance)?\.unreach$/`          |
+|   | LOWBAT         | indicator.maintenance.lowbat  |      | boolean |    |      | X   |       | `/^indicator(\.maintenance)?\.(lowbat｜battery)$/` |
+|   | MAINTAIN       | indicator.maintenance         |      | boolean |    |      | X   |       | `/^indicator\.maintenance$/`                      |
+|   | ERROR          | indicator.error               |      |         |    |      | X   |       | `/^indicator\.error$/`                            |
+|   | BATTERY        | value.battery                 | %    | number  | -  |      |     |       | `/^value\.battery$/`                              |
 
 
 ### GPS Location (longitude, latitude) [location]
@@ -591,84 +586,81 @@ Same as slider, but from 0 to 100%
 
 R,G,B(,W) Light with different states for every color. The value is from 0 to 255.
 
-| R | Name            | Role                          | Unit | Type          | Wr | Ind | Multi | Regex                                             |
-|---|-----------------|-------------------------------|------|---------------|----|-----|-------|---------------------------------------------------|
-| * | RED             | level.color.red               |      | number        | W  |     |       | `/^level\.color\.red$/`                           |
-| * | GREEN           | level.color.green             |      | number        | W  |     |       | `/^level\.color\.green$/`                         |
-| * | BLUE            | level.color.blue              |      | number        | W  |     |       | `/^level\.color\.blue$/`                          |
-|   | WHITE           | level.color.white             |      | number        | W  |     |       | `/^level\.color\.white$/`                         |
-|   | DIMMER          | level.dimmer                  | %    | number        | W  |     |       | `/^level\.dimmer$/`                               |
-|   | BRIGHTNESS      |                               |      | number        | W  |     |       | `/^level\.brightness$/`                           |
-|   | TEMPERATURE     | level.color.temperature       | °K   | number        | W  |     |       | `/^level\.color\.temperature$/`                   |
-|   | EFFECT          | level.effect                  |      | number/string | W  |     |       | `/^level\.effect$/`                               |
-|   | ON              | switch.light                  |      | boolean       | W  |     |       | `/^switch(\.light)?$｜^state$/`                    |
-|   | ON_ACTUAL       | sensor.light                  |      | boolean       | -  |     |       | `/^(state｜switch｜sensor)\.light｜switch$/`         |
-|   | TRANSITION_TIME | time.span                     | ms   | number        | W  |     |       | `/^time\.(span｜interval)$/`                       |
-|   | ELECTRIC_POWER  | value.power                   | W    | number        | -  |     |       | `/^value\.power$/`                                |
-|   | CURRENT         | value.current                 | mA   | number        | -  |     |       | `/^value\.current$/`                              |
-|   | VOLTAGE         | value.voltage                 | V    | number        | -  |     |       | `/^value\.voltage$/`                              |
-|   | CONSUMPTION     | value.power.consumption       | Wh   | number        | -  |     |       | `/^value\.power\.consumption$/`                   |
-|   | FREQUENCY       | value.frequency               | Hz   | number        | -  |     |       | `/^value\.frequency$/`                            |
-|   | WORKING         | indicator.working             |      |               |    | X   |       | `/^indicator\.working$/`                          |
-|   | UNREACH         | indicator.maintenance.unreach |      | boolean       |    | X   |       | `/^indicator(\.maintenance)?\.unreach$/`          |
-|   | LOWBAT          | indicator.maintenance.lowbat  |      | boolean       |    | X   |       | `/^indicator(\.maintenance)?\.(lowbat｜battery)$/` |
-|   | MAINTAIN        | indicator.maintenance         |      | boolean       |    | X   |       | `/^indicator\.maintenance$/`                      |
-|   | ERROR           | indicator.error               |      |               |    | X   |       | `/^indicator\.error$/`                            |
-|   | BATTERY         | value.battery                 | %    | number        | -  |     |       | `/^value\.battery$/`                              |
+| R | Name            | Role                          | Unit | Type    | Wr | Ind | Multi | Regex                                             |
+|---|-----------------|-------------------------------|------|---------|----|-----|-------|---------------------------------------------------|
+| * | RED             | level.color.red               |      | number  | W  |     |       | `/^level\.color\.red$/`                           |
+| * | GREEN           | level.color.green             |      | number  | W  |     |       | `/^level\.color\.green$/`                         |
+| * | BLUE            | level.color.blue              |      | number  | W  |     |       | `/^level\.color\.blue$/`                          |
+|   | WHITE           | level.color.white             |      | number  | W  |     |       | `/^level\.color\.white$/`                         |
+|   | DIMMER          | level.dimmer                  | %    | number  | W  |     |       | `/^level\.dimmer$/`                               |
+|   | BRIGHTNESS      |                               |      | number  | W  |     |       | `/^level\.brightness$/`                           |
+|   | TEMPERATURE     | level.color.temperature       | °K   | number  | W  |     |       | `/^level\.color\.temperature$/`                   |
+|   | ON              | switch.light                  |      | boolean | W  |     |       | `/^switch(\.light)?$｜^state$/`                    |
+|   | ON_ACTUAL       | sensor.light                  |      | boolean | -  |     |       | `/^(state｜switch｜sensor)\.light｜switch$/`         |
+|   | TRANSITION_TIME | time.span                     | ms   | number  | W  |     |       | `/^time\.(span｜interval)$/`                       |
+|   | ELECTRIC_POWER  | value.power                   | W    | number  | -  |     |       | `/^value\.power$/`                                |
+|   | CURRENT         | value.current                 | mA   | number  | -  |     |       | `/^value\.current$/`                              |
+|   | VOLTAGE         | value.voltage                 | V    | number  | -  |     |       | `/^value\.voltage$/`                              |
+|   | CONSUMPTION     | value.power.consumption       | Wh   | number  | -  |     |       | `/^value\.power\.consumption$/`                   |
+|   | FREQUENCY       | value.frequency               | Hz   | number  | -  |     |       | `/^value\.frequency$/`                            |
+|   | WORKING         | indicator.working             |      |         |    | X   |       | `/^indicator\.working$/`                          |
+|   | UNREACH         | indicator.maintenance.unreach |      | boolean |    | X   |       | `/^indicator(\.maintenance)?\.unreach$/`          |
+|   | LOWBAT          | indicator.maintenance.lowbat  |      | boolean |    | X   |       | `/^indicator(\.maintenance)?\.(lowbat｜battery)$/` |
+|   | MAINTAIN        | indicator.maintenance         |      | boolean |    | X   |       | `/^indicator\.maintenance$/`                      |
+|   | ERROR           | indicator.error               |      |         |    | X   |       | `/^indicator\.error$/`                            |
+|   | BATTERY         | value.battery                 | %    | number  | -  |     |       | `/^value\.battery$/`                              |
 
 
 ### RGB Light Single [rgbSingle]
 
 RGB light with one state of color. Could be HEX #RRGGBB, or rgb(0-255,0-255,0-255).
 
-| R | Name            | Role                          | Unit | Type          | Wr | Ind | Multi | Regex                                             |
-|---|-----------------|-------------------------------|------|---------------|----|-----|-------|---------------------------------------------------|
-| * | RGB             | level.color.rgb               |      | string        | W  |     |       | `/^level\.color\.rgb$/`                           |
-|   | DIMMER          | level.dimmer                  | %    | number        | W  |     |       | `/^level\.dimmer$/`                               |
-|   | BRIGHTNESS      |                               | %    | number        | W  |     |       | `/^level\.brightness$/`                           |
-|   | TEMPERATURE     | level.color.temperature       | °K   | number        | W  |     |       | `/^level\.color\.temperature$/`                   |
-|   | EFFECT          | level.effect                  |      | number/string | W  |     |       | `/^level\.effect$/`                               |
-|   | ON              | switch.light                  |      | boolean       | W  |     |       | `/^switch(\.light)?$/`                            |
-|   | ON_ACTUAL       | sensor.light                  |      | boolean       | -  |     |       | `/^(state｜switch｜sensor)\.light｜switch$/`         |
-|   | TRANSITION_TIME | time.span                     | ms   | number        | W  |     |       | `/^time\.(span｜interval)$/`                       |
-|   | ELECTRIC_POWER  | value.power                   | W    | number        | -  |     |       | `/^value\.power$/`                                |
-|   | CURRENT         | value.current                 | mA   | number        | -  |     |       | `/^value\.current$/`                              |
-|   | VOLTAGE         | value.voltage                 | V    | number        | -  |     |       | `/^value\.voltage$/`                              |
-|   | CONSUMPTION     | value.power.consumption       | Wh   | number        | -  |     |       | `/^value\.power\.consumption$/`                   |
-|   | FREQUENCY       | value.frequency               | Hz   | number        | -  |     |       | `/^value\.frequency$/`                            |
-|   | WORKING         | indicator.working             |      |               |    | X   |       | `/^indicator\.working$/`                          |
-|   | UNREACH         | indicator.maintenance.unreach |      | boolean       |    | X   |       | `/^indicator(\.maintenance)?\.unreach$/`          |
-|   | LOWBAT          | indicator.maintenance.lowbat  |      | boolean       |    | X   |       | `/^indicator(\.maintenance)?\.(lowbat｜battery)$/` |
-|   | MAINTAIN        | indicator.maintenance         |      | boolean       |    | X   |       | `/^indicator\.maintenance$/`                      |
-|   | ERROR           | indicator.error               |      |               |    | X   |       | `/^indicator\.error$/`                            |
-|   | BATTERY         | value.battery                 | %    | number        | -  |     |       | `/^value\.battery$/`                              |
+| R | Name            | Role                          | Unit | Type    | Wr | Ind | Multi | Regex                                             |
+|---|-----------------|-------------------------------|------|---------|----|-----|-------|---------------------------------------------------|
+| * | RGB             | level.color.rgb               |      | string  | W  |     |       | `/^level\.color\.rgb$/`                           |
+|   | DIMMER          | level.dimmer                  | %    | number  | W  |     |       | `/^level\.dimmer$/`                               |
+|   | BRIGHTNESS      |                               | %    | number  | W  |     |       | `/^level\.brightness$/`                           |
+|   | TEMPERATURE     | level.color.temperature       | °K   | number  | W  |     |       | `/^level\.color\.temperature$/`                   |
+|   | ON              | switch.light                  |      | boolean | W  |     |       | `/^switch(\.light)?$/`                            |
+|   | ON_ACTUAL       | sensor.light                  |      | boolean | -  |     |       | `/^(state｜switch｜sensor)\.light｜switch$/`         |
+|   | TRANSITION_TIME | time.span                     | ms   | number  | W  |     |       | `/^time\.(span｜interval)$/`                       |
+|   | ELECTRIC_POWER  | value.power                   | W    | number  | -  |     |       | `/^value\.power$/`                                |
+|   | CURRENT         | value.current                 | mA   | number  | -  |     |       | `/^value\.current$/`                              |
+|   | VOLTAGE         | value.voltage                 | V    | number  | -  |     |       | `/^value\.voltage$/`                              |
+|   | CONSUMPTION     | value.power.consumption       | Wh   | number  | -  |     |       | `/^value\.power\.consumption$/`                   |
+|   | FREQUENCY       | value.frequency               | Hz   | number  | -  |     |       | `/^value\.frequency$/`                            |
+|   | WORKING         | indicator.working             |      |         |    | X   |       | `/^indicator\.working$/`                          |
+|   | UNREACH         | indicator.maintenance.unreach |      | boolean |    | X   |       | `/^indicator(\.maintenance)?\.unreach$/`          |
+|   | LOWBAT          | indicator.maintenance.lowbat  |      | boolean |    | X   |       | `/^indicator(\.maintenance)?\.(lowbat｜battery)$/` |
+|   | MAINTAIN        | indicator.maintenance         |      | boolean |    | X   |       | `/^indicator\.maintenance$/`                      |
+|   | ERROR           | indicator.error               |      |         |    | X   |       | `/^indicator\.error$/`                            |
+|   | BATTERY         | value.battery                 | %    | number  | -  |     |       | `/^value\.battery$/`                              |
 
 
 ### RGBW Light Single [rgbwSingle]
 
 RGBW light with one state of color. Could be HEX #RRGGBBWW, or rgba(0-255,0-255,0-255,0-1).
 
-| R | Name            | Role                          | Unit | Type          | Wr | Ind | Multi | Regex                                             |
-|---|-----------------|-------------------------------|------|---------------|----|-----|-------|---------------------------------------------------|
-| * | RGBW            | level.color.rgbw              |      | string        | W  |     |       | `/^level\.color\.rgbw$/`                          |
-|   | DIMMER          | level.dimmer                  | %    | number        | W  |     |       | `/^level\.dimmer$/`                               |
-|   | BRIGHTNESS      |                               | %    | number        | W  |     |       | `/^level\.brightness$/`                           |
-|   | TEMPERATURE     | level.color.temperature       | °K   | number        | W  |     |       | `/^level\.color\.temperature$/`                   |
-|   | EFFECT          | level.effect                  |      | number/string | W  |     |       | `/^level\.effect$/`                               |
-|   | ON              | switch.light                  |      | boolean       | W  |     |       | `/^switch(\.light)?$/`                            |
-|   | ON_ACTUAL       | sensor.light                  |      | boolean       | -  |     |       | `/^(state｜switch｜sensor)\.light｜switch$/`         |
-|   | TRANSITION_TIME | time.span                     | ms   | number        | W  |     |       | `/^time\.(span｜interval)$/`                       |
-|   | ELECTRIC_POWER  | value.power                   | W    | number        | -  |     |       | `/^value\.power$/`                                |
-|   | CURRENT         | value.current                 | mA   | number        | -  |     |       | `/^value\.current$/`                              |
-|   | VOLTAGE         | value.voltage                 | V    | number        | -  |     |       | `/^value\.voltage$/`                              |
-|   | CONSUMPTION     | value.power.consumption       | Wh   | number        | -  |     |       | `/^value\.power\.consumption$/`                   |
-|   | FREQUENCY       | value.frequency               | Hz   | number        | -  |     |       | `/^value\.frequency$/`                            |
-|   | WORKING         | indicator.working             |      |               |    | X   |       | `/^indicator\.working$/`                          |
-|   | UNREACH         | indicator.maintenance.unreach |      | boolean       |    | X   |       | `/^indicator(\.maintenance)?\.unreach$/`          |
-|   | LOWBAT          | indicator.maintenance.lowbat  |      | boolean       |    | X   |       | `/^indicator(\.maintenance)?\.(lowbat｜battery)$/` |
-|   | MAINTAIN        | indicator.maintenance         |      | boolean       |    | X   |       | `/^indicator\.maintenance$/`                      |
-|   | ERROR           | indicator.error               |      |               |    | X   |       | `/^indicator\.error$/`                            |
-|   | BATTERY         | value.battery                 | %    | number        | -  |     |       | `/^value\.battery$/`                              |
+| R | Name            | Role                          | Unit | Type    | Wr | Ind | Multi | Regex                                             |
+|---|-----------------|-------------------------------|------|---------|----|-----|-------|---------------------------------------------------|
+| * | RGBW            | level.color.rgbw              |      | string  | W  |     |       | `/^level\.color\.rgbw$/`                          |
+|   | DIMMER          | level.dimmer                  | %    | number  | W  |     |       | `/^level\.dimmer$/`                               |
+|   | BRIGHTNESS      |                               | %    | number  | W  |     |       | `/^level\.brightness$/`                           |
+|   | TEMPERATURE     | level.color.temperature       | °K   | number  | W  |     |       | `/^level\.color\.temperature$/`                   |
+|   | ON              | switch.light                  |      | boolean | W  |     |       | `/^switch(\.light)?$/`                            |
+|   | ON_ACTUAL       | sensor.light                  |      | boolean | -  |     |       | `/^(state｜switch｜sensor)\.light｜switch$/`         |
+|   | TRANSITION_TIME | time.span                     | ms   | number  | W  |     |       | `/^time\.(span｜interval)$/`                       |
+|   | ELECTRIC_POWER  | value.power                   | W    | number  | -  |     |       | `/^value\.power$/`                                |
+|   | CURRENT         | value.current                 | mA   | number  | -  |     |       | `/^value\.current$/`                              |
+|   | VOLTAGE         | value.voltage                 | V    | number  | -  |     |       | `/^value\.voltage$/`                              |
+|   | CONSUMPTION     | value.power.consumption       | Wh   | number  | -  |     |       | `/^value\.power\.consumption$/`                   |
+|   | FREQUENCY       | value.frequency               | Hz   | number  | -  |     |       | `/^value\.frequency$/`                            |
+|   | WORKING         | indicator.working             |      |         |    | X   |       | `/^indicator\.working$/`                          |
+|   | UNREACH         | indicator.maintenance.unreach |      | boolean |    | X   |       | `/^indicator(\.maintenance)?\.unreach$/`          |
+|   | LOWBAT          | indicator.maintenance.lowbat  |      | boolean |    | X   |       | `/^indicator(\.maintenance)?\.(lowbat｜battery)$/` |
+|   | MAINTAIN        | indicator.maintenance         |      | boolean |    | X   |       | `/^indicator\.maintenance$/`                      |
+|   | ERROR           | indicator.error               |      |         |    | X   |       | `/^indicator\.error$/`                            |
+|   | BATTERY         | value.battery                 | %    | number  | -  |     |       | `/^value\.battery$/`                              |
 
 
 ### Socket [socket]
@@ -830,48 +822,45 @@ Just sensor if alarm should be shown.
 
 ### Weather forecast [weatherForecast]
 
-| R | Name                   | Role                                   | Unit  | Type          | Ind | Multi | Regex                                               |
-|---|------------------------|----------------------------------------|-------|---------------|-----|-------|-----------------------------------------------------|
-| * | ICON                   | weather.icon.forecast.0                |       | string        |     |       | `/^weather\.icon(\.forecast\.0)?$/`                 |
-| * | TEMP_MIN               | value.temperature.min.forecast.0       |       | number        |     |       | `/^value\.temperature\.min\.forecast\.0$/`          |
-| * | TEMP_MAX               | value.temperature.max.forecast.0       |       | number        |     |       | `/^value\.temperature\.max\.forecast\.0$/`          |
-|   | PRECIPITATION_CHANCE   | value.precipitation.forecast.0         |  / %  | number        |     |       | `/^value\.precipitation(\.forecast\.0)?$/`          |
-|   | PRECIPITATION          | value.precipitation.forecast.0         |  / mm | number        |     |       | `/^value\.precipitation(\.forecast\.0)?$/`          |
-|   | DATE                   | date.forecast.0                        |       | string        |     |       | `/^date(\.forecast\.0)?$/`                          |
-|   | DOW                    | dayofweek.forecast.0                   |       | string        |     |       | `/^dayofweek(\.forecast\.0)?$/`                     |
-|   | STATE                  | weather.state.forecast.0               |       | string        |     |       | `/^weather\.state(\.forecast\.0)?$/`                |
-|   | TEMP                   | value.temperature.forecast.0           |       | number        |     |       | `/^value\.temperature(\.forecast\.0)?$/`            |
-|   | PRESSURE               | value.pressure.forecast.0              |       | number        |     |       | `/^value\.pressure(\.forecast\.0)?$/`               |
-|   | HUMIDITY               | value.humidity.forecast.0              |       | number        |     |       | `/^value\.humidity(\.forecast\.0)?$/`               |
-|   | TIME_SUNRISE           | date.sunrise                           |       | string/number |     |       | `/^(?:date｜time)\.sunrise(?:\.forecast\.0)?$/`      |
-|   | TIME_SUNSET            | date.sunset                            |       | string/number |     |       | `/^(?:date｜time)\.sunset(?:\.forecast\.0)?$/`       |
-|   | WIND_CHILL             | value.temperature.windchill.forecast.0 |       | number        |     |       | `/^value\.temperature\.windchill(\.forecast\.0)?$/` |
-|   | FEELS_LIKE             | value.temperature.feelslike.forecast.0 |       | number        |     |       | `/^value\.temperature\.feelslike(\.forecast\.0)?$/` |
-|   | WIND_SPEED             | value.speed.wind.forecast.0            |       | number        |     |       | `/^value\.speed\.wind(\.forecast\.0)?$/`            |
-|   | WIND_DIRECTION         | value.direction.wind.forecast.0        |       | number        |     |       | `/^value\.direction\.wind(\.forecast\.0)?$/`        |
-|   | WIND_DIRECTION_STR     | weather.direction.wind.forecast.0      |       | string        |     |       | `/^weather\.direction\.wind(\.forecast\.0)?$/`      |
-|   | WIND_ICON              | weather.icon.wind.forecast.0           |       | string        |     |       | `/^weather\.icon\.wind(\.forecast\.0)?$/`           |
-|   | HISTORY_CHART          | weather.chart.url                      |       | string        |     |       | `/^weather\.chart\.url$/`                           |
-|   | FORECAST_CHART         | weather.chart.url.forecast             |       | string        |     |       | `/^weather\.chart\.url\.forecast$/`                 |
-|   | LOCATION               | location                               |       | string        |     |       | `/^location$/`                                      |
-|   | ICON%d                 |                                        |       | string        |     | x     | `/^weather\.icon\.forecast.(\d+)$/`                 |
-|   | TEMP_MIN%d             |                                        |       | number        |     | x     | `/^value\.temperature\.min\.forecast\.(\d+)$/`      |
-|   | TEMP_MAX%d             |                                        |       | number        |     | x     | `/^value\.temperature\.max\.forecast\.(\d+)$/`      |
-|   | DATE%d                 |                                        |       | string        |     | x     | `/^date\.forecast\.(\d+)$/`                         |
-|   | DOW%d                  |                                        |       | string        |     | x     | `/^dayofweek\.forecast\.(\d+)$/`                    |
-|   | STATE%d                |                                        |       | string        |     | x     | `/^weather\.state\.forecast\.(\d+)$/`               |
-|   | TEMP%d                 |                                        |       | number        |     | x     | `/^value\.temperature\.forecast\.(\d+)$/`           |
-|   | PRESSURE%d             |                                        |       | number        |     | x     | `/^value\.pressure\.forecast\.(\d+)?$/`             |
-|   | HUMIDITY%d             |                                        |       | number        |     | x     | `/^value\.humidity\.forecast\.(\d+)$/`              |
-|   | HUMIDITY_MAX%d         |                                        |       | number        |     | x     | `/^value\.humidity\.max\.forecast\.(\d+)$/`         |
-|   | PRECIPITATION_CHANCE%d |                                        |  / %  | number        |     | x     | `/^value\.precipitation\.forecast\.(\d+)$/`         |
-|   | PRECIPITATION%d        |                                        |  / mm | number        |     | x     | `/^value\.precipitation\.forecast\.(\d+)$/`         |
-|   | WIND_SPEED%d           |                                        |       | number        |     | x     | `/^value\.speed\.wind\.forecast\.(\d+)$/`           |
-|   | WIND_DIRECTION%d       |                                        |       | number        |     | x     | `/^value\.direction\.wind\.forecast\.(\d+)$/`       |
-|   | WIND_DIRECTION_STR%d   |                                        |       | string        |     | x     | `/^weather\.direction\.wind\.forecast\.(\d+)$/`     |
-|   | WIND_ICON%d            |                                        |       | string        |     | x     | `/^weather\.icon\.wind\.forecast\.(\d+)$/`          |
-|   | TIME_SUNRISE%d         |                                        |       | string/number |     | x     | `/^(?:date｜time)\.sunrise(?:\.forecast\.(\d+))?$/`  |
-|   | TIME_SUNSET%d          |                                        |       | string/number |     | x     | `/^(?:date｜time)\.sunset(?:\.forecast\.(\d+))?$/`   |
+| R | Name                   | Role                                   | Unit  | Type   | Ind | Multi | Regex                                               |
+|---|------------------------|----------------------------------------|-------|--------|-----|-------|-----------------------------------------------------|
+| * | ICON                   | weather.icon.forecast.0                |       | string |     |       | `/^weather\.icon(\.forecast\.0)?$/`                 |
+| * | TEMP_MIN               | value.temperature.min.forecast.0       |       | number |     |       | `/^value\.temperature\.min\.forecast\.0$/`          |
+| * | TEMP_MAX               | value.temperature.max.forecast.0       |       | number |     |       | `/^value\.temperature\.max\.forecast\.0$/`          |
+|   | PRECIPITATION_CHANCE   | value.precipitation.forecast.0         |  / %  | number |     |       | `/^value\.precipitation(\.forecast\.0)?$/`          |
+|   | PRECIPITATION          | value.precipitation.forecast.0         |  / mm | number |     |       | `/^value\.precipitation(\.forecast\.0)?$/`          |
+|   | DATE                   | date.forecast.0                        |       | string |     |       | `/^date(\.forecast\.0)?$/`                          |
+|   | DOW                    | dayofweek.forecast.0                   |       | string |     |       | `/^dayofweek(\.forecast\.0)?$/`                     |
+|   | STATE                  | weather.state.forecast.0               |       | string |     |       | `/^weather\.state(\.forecast\.0)?$/`                |
+|   | TEMP                   | value.temperature.forecast.0           |       | number |     |       | `/^value\.temperature(\.forecast\.0)?$/`            |
+|   | PRESSURE               | value.pressure.forecast.0              |       | number |     |       | `/^value\.pressure(\.forecast\.0)?$/`               |
+|   | HUMIDITY               | value.humidity.forecast.0              |       | number |     |       | `/^value\.humidity(\.forecast\.0)?$/`               |
+|   | TIME_SUNRISE           | date.sunrise                           |       | string |     |       | `/^(?:date｜time)\.sunrise(?:\.forecast\.0)?$/`      |
+|   | TIME_SUNSET            | date.sunset                            |       | string |     |       | `/^(?:date｜time)\.sunset(?:\.forecast\.0)?$/`       |
+|   | WIND_CHILL             | value.temperature.windchill.forecast.0 |       | number |     |       | `/^value\.temperature\.windchill(\.forecast\.0)?$/` |
+|   | FEELS_LIKE             | value.temperature.feelslike.forecast.0 |       | number |     |       | `/^value\.temperature\.feelslike(\.forecast\.0)?$/` |
+|   | WIND_SPEED             | value.speed.wind.forecast.0            |       | number |     |       | `/^value\.speed\.wind(\.forecast\.0)?$/`            |
+|   | WIND_DIRECTION         | value.direction.wind.forecast.0        |       | number |     |       | `/^value\.direction\.wind(\.forecast\.0)?$/`        |
+|   | WIND_DIRECTION_STR     | weather.direction.wind.forecast.0      |       | string |     |       | `/^weather\.direction\.wind(\.forecast\.0)?$/`      |
+|   | WIND_ICON              | weather.icon.wind.forecast.0           |       | string |     |       | `/^weather\.icon\.wind(\.forecast\.0)?$/`           |
+|   | HISTORY_CHART          | weather.chart.url                      |       | string |     |       | `/^weather\.chart\.url$/`                           |
+|   | FORECAST_CHART         | weather.chart.url.forecast             |       | string |     |       | `/^weather\.chart\.url\.forecast$/`                 |
+|   | LOCATION               | location                               |       | string |     |       | `/^location$/`                                      |
+|   | ICON%d                 |                                        |       | string |     | x     | `/^weather\.icon\.forecast.(\d+)$/`                 |
+|   | TEMP_MIN%d             |                                        |       | number |     | x     | `/^value\.temperature\.min\.forecast\.(\d+)$/`      |
+|   | TEMP_MAX%d             |                                        |       | number |     | x     | `/^value\.temperature\.max\.forecast\.(\d+)$/`      |
+|   | DATE%d                 |                                        |       | string |     | x     | `/^date\.forecast\.(\d+)$/`                         |
+|   | DOW%d                  |                                        |       | string |     | x     | `/^dayofweek\.forecast\.(\d+)$/`                    |
+|   | STATE%d                |                                        |       | string |     | x     | `/^weather\.state\.forecast\.(\d+)$/`               |
+|   | TEMP%d                 |                                        |       | number |     | x     | `/^value\.temperature\.forecast\.(\d+)$/`           |
+|   | HUMIDITY%d             |                                        |       | number |     | x     | `/^value\.humidity\.forecast\.(\d+)$/`              |
+|   | HUMIDITY_MAX%d         |                                        |       | number |     | x     | `/^value\.humidity\.max\.forecast\.(\d+)$/`         |
+|   | PRECIPITATION_CHANCE%d |                                        |  / %  | number |     | x     | `/^value\.precipitation\.forecast\.(\d+)$/`         |
+|   | PRECIPITATION%d        |                                        |  / mm | number |     | x     | `/^value\.precipitation\.forecast\.(\d+)$/`         |
+|   | WIND_SPEED%d           |                                        |       | number |     | x     | `/^value\.speed\.wind\.forecast\.(\d+)$/`           |
+|   | WIND_DIRECTION%d       |                                        |       | number |     | x     | `/^value\.direction\.wind\.forecast\.(\d+)$/`       |
+|   | WIND_DIRECTION_STR%d   |                                        |       | string |     | x     | `/^weather\.direction\.wind\.forecast\.(\d+)$/`     |
+|   | WIND_ICON%d            |                                        |       | string |     | x     | `/^weather\.icon\.wind\.forecast\.(\d+)$/`          |
 
 
 ### Window sensor [window]
