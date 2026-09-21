@@ -1,7 +1,7 @@
 # ioBroker.type-detector
 
 This is not the adapter.
-This is help function to detect devices from ioBroker states and channels.
+This is a help function to detect devices from ioBroker states and channels.
 
 You can find the description of devices in [DEVICES.md](DEVICES.md).
 
@@ -11,7 +11,7 @@ You can find the description of devices in [DEVICES.md](DEVICES.md).
 
 You can use this module in Browser and in Node.js projects.
 
-Just now this module used in material adapter to detect devices and to visualize them.
+Just now this module is used in material adapter to detect devices and to visualize them.
 
 The following code detects devices in some state's tree:
 
@@ -98,6 +98,57 @@ if (controls) {
 -->
 
 ## Changelog
+### 6.0.1 (2026-08-27)
+-   (@GermanBluefox) Allowed mode to be not only a number with states, but also a string with states
+
+### 6.0.0 (2026-08-12)
+-   (@Apollon77) Fixed the default role of the wind speed of `weatherCurrent`, which carried a regular expression anchor
+-   (@Apollon77) Fixed one object being assigned to two state definitions of the same name, which reported the swing of an air conditioner twice with a conflicting type and role
+-   (@Apollon77) Added the electricity states to `thermostat`, `fan` and `airPurifier`
+-   (@Apollon77) Added the optional state `WINDOW` to `thermostat` for the open window detection of the device
+-   (@Apollon77) Added the optional states `HOME`, `RUN_MODE`, `PROGRESS` and `PHASE` and the missing `WORKING` to `vacuumCleaner`
+-   (@Apollon77) A `vacuumCleaner` is now detected with either the cleaning mode or the new run mode, instead of requiring the cleaning mode
+-   (@Apollon77) Added the optional end contacts `OPENED` and `CLOSED` to `gate`
+-   (@Apollon77) Added `UNREACH` to `media`, so every device type reports reachability the same way. `CONNECTED` (`indicator.reachable`) stays on `media` for compatibility but is deprecated, prefer `UNREACH`
+-   (@Apollon77) Added the optional state `RSSI` to all device types that describe a radio device
+-   (@Apollon77) Added the optional state `VALVE` to `thermostat` and the optional state `WORKING_MODE` to `thermostat` (`value.mode.thermostat`) and `airCondition` (`value.mode.airconditioner`)
+-   (@Apollon77) Added new device type `electricity` for devices that only measure electricity
+-   (@Apollon77) The feedback state `ACTUAL` of `socket` no longer matches the generic role `state`, and `ON_ACTUAL` no longer matches any role that merely ends in `switch`
+-   (@Apollon77) Fixed the escaping of object IDs used to build regular expressions, so IDs containing characters like `\`, `+` or `*` are matched literally
+-   (@Apollon77) Added the optional states `SPEED_LEVEL`, `AIRFLOW_DIRECTION`, `FILTER_CONDITION`, `FILTER_CONDITION_CARBON` and `FILTER_CHANGE` to `airCondition`
+-   (@Apollon77) Added the missing shared states `WORKING`, `LOWBAT` and `BATTERY` to `airCondition`. They were previously reported as a separate `info` device
+-   (@Apollon77) Added the optional states `SET_HEATING` and `SET_COOLING` to `airCondition` and `thermostat` for devices that hold a heating and a cooling setpoint at once. One of `SET`, `SET_HEATING` and `SET_COOLING` is now required instead of `SET` alone. A device whose only setpoint carries the role `level.temperature.heating` or `level.temperature.cooling` is still detected, but that state is now reported as `SET_HEATING` / `SET_COOLING` instead of `SET`
+-   (@Apollon77) Added the optional state `ON_TIME` to the light types, `socket`, `fan` and `airPurifier`
+-   (@Apollon77) Added new device type `coAlarm` for carbon monoxide alarms
+-   (@Apollon77) Added the optional states `CO`, `SEVERITY`, `MUTED` and `TEST` to `fireAlarm`, so a combined smoke and CO alarm is one device
+-   (@Apollon77) Added new device type `pump` for pumps (Matter Pump device)
+-   (@Apollon77) Added new device types `pressure` and `flow` for pressure and flow sensors
+-   (@Apollon77) Added new device type `contact` for generic contact sensors
+-   (@Apollon77) Added the optional states `ON` and `ON_ACTUAL` to `slider`, so a dimmed device that is not a light keeps its on/off in one control
+-   (@Apollon77) The continuous fan speed of `fan` and `airPurifier` uses the existing role `level.speed` instead of a new role `level.fan`
+-   (@Apollon77) Added the state flag `requiredOneOf` to require at least one state out of a group instead of one specific state
+-   (@Apollon77) An `airPurifier` is now also detected when it reports only the activated carbon filter
+-   (@Apollon77) Added new device type `airPurifier` for air purifiers (Matter Air Purifier device)
+-   (@Apollon77) Fixed states that lost a pattern slot to a better candidate being marked as used, which hid them from the remaining states of the same pattern
+-   (@Apollon77) Added new device type `fan` for fans (Matter Fan device)
+-   (@Apollon77) Combined the fan states shared by `airCondition`, `fan` and `airPurifier` into one definition
+-   (@Apollon77) Added new device type `airQuality` for air quality sensors (Matter Air Quality Sensor / Air Purifier)
+-   (@Apollon77) BREAKING: Renamed the detected state name of the `direction_enum` shared pattern from `DIRECTION` to `DIRECTION_ENUM` to make it distinguishable from the boolean `direction` pattern. Affects the device types `blind`, `blindButtons`, `gate` and `lock`.
+
+### 5.0.15 (2026-07-10)
+-   (@GermanBluefox) Added tank level to devices
+
+### 5.0.13 (2026-04-12)
+-   (@GermanBluefox) Added to export the detection function from roleEnumUtils (used in iot)
+
+### 5.0.11 (2026-03-26)
+-   (@GermanBluefox) Media player was extended with player's name and type
+
+### 5.0.10 (2026-02-05)
+-   (@Garfonso) Corrected `ACTUAL` state for the socket device
+-   (@Garfonso) Allowed timestamp for TIME_SUNRISE
+-   (@Garfonso) Light effect state for lamps
+
 ### 5.0.9 (2025-12-16)
 -   (@GermanBluefox) Breaking change: added new type percentage
     The device with unit=% was detected as `slider`, now it will be detected as `percentage`. Developers must implement a new type!
@@ -110,7 +161,7 @@ if (controls) {
 -   (@GermanBluefox) Improved detection of devices if the structure has more than one control inside
 
 ### 4.6.1 (2025-10-21)
--   (@GermanBluefox) Added new flag to detect only in the current channel (one level)
+-   (@GermanBluefox) Added a new flag to detect only in the current channel (one level)
 
 ### 4.6.0 (2025-10-19)
 -   (@GermanBluefox) Correcting detection of states consists only of one state
@@ -149,12 +200,12 @@ if (controls) {
 -   (@GermanBluefox) Added detection of `level.direction`
 -   (@Apollon77) Added door state for device type "lock"
 -   (@Apollon77) Added default unit for volume states
--   (@Apollon77) Added new option ignoreEnums to execute the detection without enums-matching logic
--   (@Apollon77) Added new option detectAllPossibleDevices to detect multiple devices in one run without checking for already used IDs
+-   (@Apollon77) Added a new option ignoreEnums to execute the detection without enums-matching logic
+-   (@Apollon77) Added a new option detectAllPossibleDevices to detect multiple devices in one run without checking for already used IDs
 -   (@Garfonso) Added missing default roles and units for saturation
 
 ### 4.1.1 (2024-12-15)
--   (@Apollon77) Fixed default unit for Illuminance to "lux"
+-   (@Apollon77) Fixed the default unit for Illuminance to "lux"
 -   (@Apollon77) Added Low-Battery state for switch to be consistent with other devices
 
 ### 4.1.0 (2024-12-06)
@@ -165,7 +216,7 @@ if (controls) {
 -   (@Garfonso) Allowed the mixed `device->state` and `device->channel->state` structures
 -   (@GermanBluefox) Used a new eslint config library
 -   (@GermanBluefox) Types were slightly changed
--   (Apollon77) Removed File state type
+-   (Apollon77) Removed a file state type
 -   (Apollon77) Adjusted Camera states to remove Binary state and replace by link
 -   (Apollon77) Fixed role for ACTUAL state for socket
 
@@ -300,7 +351,7 @@ if (controls) {
 
 ### 0.1.1 (2019-06-29)
 
--   (kirovilya) In some cases, devices may not have channels, but immediately have a states. For example, in the zigbee-adapter.
+-   (kirovilya) In some cases, devices may not have channels but immediately have a state. For example, in the zigbee-adapter.
 
 ### 0.1.1 (2019-05-24)
 
@@ -313,6 +364,6 @@ if (controls) {
 
 ## License
 
-Copyright (c) 2018-2025 Denis Haev <dogafox@gmail.com>
+Copyright (c) 2018-2026 Denis Haev <dogafox@gmail.com>
 
 MIT License

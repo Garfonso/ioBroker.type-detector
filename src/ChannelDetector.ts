@@ -146,6 +146,11 @@ export class ChannelDetector {
                 }
             }
 
+            if (statePattern.statesDefined === true && typeof objects[id].common.states !== 'object') {
+                // common states must be defined and object or array.
+                return false;
+            }
+
             // When the default role is assigned, then the users should know how to handle it,
             // so we can be a bit more laxe if read/write is not set correctly because the user
             // created it manually. Additionally, enum check should be not needed with default role because the role already
@@ -280,10 +285,18 @@ export class ChannelDetector {
                     result?.states.forEach((state, j) => ChannelDetector.copyState(patterns[pattern].states[j], state));
                 }
 
+                let mapped = false;
+
                 // map the detected ID to the relevant state in result - if allowed
                 if (!result.states.find(({ id }) => id === stateId)) {
                     for (const checkState of result.states) {
-                        if (checkState.name === state.name) {
+                        // A pattern may declare the same name more than once, e.g. a numeric and a boolean variant
+                        // of one control. The object was validated against one of them, so it may only be mapped
+                        // into a definition it actually satisfies, not merely into the first one with that name.
+                        if (
+                            checkState.name === state.name &&
+                            ChannelDetector.stateTypeMatches(checkState, objects[stateId])
+                        ) {
                             // If we already have a mapped ID, we need to decide if we keep this ID or overrule it
                             if (checkState.id) {
                                 let useThisMapping: boolean | undefined; // three-state flag
@@ -344,16 +357,33 @@ export class ChannelDetector {
                             }
 
                             // count++;
+                            const displacedId = checkState.id;
                             checkState.id = stateId;
-                            found = true;
+                            mapped = true;
+                            if (displacedId && !state.indicator) {
+                                // A `notSingle` state can have been added more than once, so drop every entry
+                                for (let u = usedInCurrentDevice.length - 1; u >= 0; u--) {
+                                    if (usedInCurrentDevice[u] === displacedId) {
+                                        usedInCurrentDevice.splice(u, 1);
+                                    }
+                                }
+                                context.rejectedInCurrentDevice.push(displacedId);
+                            }
                             break;
                         }
                     }
                 } else {
-                    found = true; // Was there before already?
+                    mapped = true; // Was there before already?
                 }
 
-                if (found) {
+                if (!mapped) {
+                    // Only when another candidate took the slot. Without `found` the slot is unfillable for this
+                    // state definition (a second definition of the same name), and the state stays free as before.
+                    if (found && !state.indicator) {
+                        context.rejectedInCurrentDevice.push(stateId);
+                    }
+                } else {
+                    found = true;
                     if (!state.indicator) {
                         usedInCurrentDevice.push(stateId);
                     }
@@ -367,6 +397,7 @@ export class ChannelDetector {
                             if (
                                 (state.indicator ||
                                     (!usedInCurrentDevice.includes(cid) &&
+                                        !context.rejectedInCurrentDevice.includes(cid) &&
                                         (state.notSingle || !usedIds.includes(cid)))) &&
                                 this._applyPattern(objects, cid, state, ignoreEnums, sortedKeys)
                             ) {
@@ -511,15 +542,37 @@ export class ChannelDetector {
         return !excludedTypes || !excludedTypes.includes(pattern.type);
     }
 
+    /** Whether an object satisfies the declared type of a pattern state. A state without a type accepts anything. */
+    private static stateTypeMatches(state: DetectorState | InternalDetectorState, obj?: ioBroker.Object): boolean {
+        if (!state.type) {
+            return true;
+        }
+        const type = obj?.common?.type;
+        if (!type) {
+            return true;
+        }
+        return Array.isArray(state.type) ? state.type.includes(type as StateType) : state.type === type;
+    }
+
     private static allRequiredStatesFound(context: DetectorContext): context is MatchedDetectorContext {
         if (!context.result) {
             return false;
         }
 
         const states = context.result.states;
+        const satisfiedGroups = new Map<string, boolean>();
 
         for (let a = 0; a < states.length; a++) {
-            if (states[a].required && !states[a].id) {
+            const group = states[a].requiredOneOf;
+            if (group) {
+                satisfiedGroups.set(group, satisfiedGroups.get(group) || !!states[a].id);
+            } else if (states[a].required && !states[a].id) {
+                return false;
+            }
+        }
+
+        for (const satisfied of satisfiedGroups.values()) {
+            if (!satisfied) {
                 return false;
             }
         }
@@ -616,6 +669,7 @@ export class ChannelDetector {
             ignoreIndicators: ignoreIndicators || [],
             pattern: 'unknown',
             usedInCurrentDevice: [],
+            rejectedInCurrentDevice: [],
             state: {} as InternalDetectorState,
             ignoreEnums: !!options.ignoreEnums,
             sortedKeys: _keysOptional!,
@@ -635,6 +689,16 @@ export class ChannelDetector {
 
             context.pattern = pattern;
             context.usedInCurrentDevice = [];
+            context.rejectedInCurrentDevice = [];
+
+            const untestedPerGroup = new Map<string, number>();
+            for (const state of patterns[pattern].states) {
+                if (state.requiredOneOf) {
+                    untestedPerGroup.set(state.requiredOneOf, (untestedPerGroup.get(state.requiredOneOf) ?? 0) + 1);
+                }
+            }
+            const satisfiedGroups = new Set<string>();
+
             for (const state of patterns[pattern].states) {
                 let found = false;
 
@@ -643,7 +707,21 @@ export class ChannelDetector {
                 if (this._testOneState(context)) {
                     found = true;
                 }
-                if (state.required && !found) {
+
+                const group = state.requiredOneOf;
+                if (group) {
+                    if (found) {
+                        satisfiedGroups.add(group);
+                    }
+                    // A group member may be missing as long as one of its siblings is found, so only the last
+                    // untested member of an unsatisfied group can tell that the pattern cannot match anymore
+                    const untested = (untestedPerGroup.get(group) ?? 0) - 1;
+                    untestedPerGroup.set(group, untested);
+                    if (untested <= 0 && !satisfiedGroups.has(group)) {
+                        delete context.result;
+                        break;
+                    }
+                } else if (state.required && !found) {
                     delete context.result;
                     break;
                 }
@@ -655,6 +733,7 @@ export class ChannelDetector {
 
             // Store all used IDs in the array
             context.usedInCurrentDevice.forEach(id => usedIds.push(id));
+            context.rejectedInCurrentDevice.forEach(id => !usedIds.includes(id) && usedIds.push(id));
 
             let deviceStates: string[];
 
@@ -791,8 +870,8 @@ export class ChannelDetector {
                 return -1;
             }
 
-            const aHasRequiredId = a.states.find(s => s.id === id && s.required) ? 1 : 0;
-            const bHasRequiredId = b.states.find(s => s.id === id && s.required) ? 1 : 0;
+            const aHasRequiredId = a.states.find(s => s.id === id && (s.required || s.requiredOneOf)) ? 1 : 0;
+            const bHasRequiredId = b.states.find(s => s.id === id && (s.required || s.requiredOneOf)) ? 1 : 0;
             if (aHasRequiredId !== bHasRequiredId) {
                 return bHasRequiredId - aHasRequiredId;
             }
