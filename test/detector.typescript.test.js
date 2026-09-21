@@ -377,23 +377,51 @@ describe(`${name} Test Detector`, () => {
 
     it('Must detect forecast from dasWetter and assign days correctly', done => {
         const controls = detect('./weather_daswetter.json', {
-            id: 'daswetter.0.NextDays.Location_1',
+            id: 'daswetter.0.location_1.ForecastDaily',
         });
 
         const detectionDef = {
-            ICON: 'daswetter.0.NextDays.Location_1.Day_1.iconURL',
-            TEMP_MIN: 'daswetter.0.NextDays.Location_1.Day_1.Minimale_Temperatur_value',
-            TEMP_MAX: 'daswetter.0.NextDays.Location_1.Day_1.Maximale_Temperatur_value',
+            ICON: 'daswetter.0.location_1.ForecastDaily.Day_1.symbol_URL',
+            TEMP_MIN: 'daswetter.0.location_1.ForecastDaily.Day_1.Temperature_Min',
+            TEMP_MAX: 'daswetter.0.location_1.ForecastDaily.Day_1.Temperature_Max',
+            DOW: 'daswetter.0.location_1.ForecastDaily.Day_1.NameOfDay',
+            STATE: 'daswetter.0.location_1.ForecastDaily.Day_1.symbol_description',
         };
-        const days = [1, 2, 3, 4, 5, 6];
+        // The adapter delivers 5 days (Day_1 ... Day_5), Day_1 is the not indexed one
+        const days = [1, 2, 3, 4];
         for (const day of days) {
-            detectionDef[`ICON${day}`] = `daswetter.0.NextDays.Location_1.Day_${day + 1}.iconURL`;
-            detectionDef[`TEMP_MIN${day}`] = `daswetter.0.NextDays.Location_1.Day_${day + 1}.Minimale_Temperatur_value`;
-            detectionDef[`TEMP_MAX${day}`] = `daswetter.0.NextDays.Location_1.Day_${day + 1}.Maximale_Temperatur_value`;
-            detectionDef[`DOW${day}`] = `daswetter.0.NextDays.Location_1.Day_${day + 1}.Tag_value`;
+            detectionDef[`ICON${day}`] = `daswetter.0.location_1.ForecastDaily.Day_${day + 1}.symbol_URL`;
+            detectionDef[`TEMP_MIN${day}`] = `daswetter.0.location_1.ForecastDaily.Day_${day + 1}.Temperature_Min`;
+            detectionDef[`TEMP_MAX${day}`] = `daswetter.0.location_1.ForecastDaily.Day_${day + 1}.Temperature_Max`;
+            detectionDef[`DOW${day}`] = `daswetter.0.location_1.ForecastDaily.Day_${day + 1}.NameOfDay`;
+            detectionDef[`STATE${day}`] = `daswetter.0.location_1.ForecastDaily.Day_${day + 1}.symbol_description`;
         }
 
         validate(controls[0], Types.weatherForecast, detectionDef, true);
+
+        done();
+    });
+
+    it('Must detect forecast from dasWetter also from the location channel', done => {
+        const controls = detect('./weather_daswetter.json', {
+            id: 'daswetter.0.location_1',
+        });
+
+        validate(
+            controls[0],
+            Types.weatherForecast,
+            {
+                ICON: 'daswetter.0.location_1.ForecastDaily.Day_1.symbol_URL',
+                TEMP_MIN: 'daswetter.0.location_1.ForecastDaily.Day_1.Temperature_Min',
+                TEMP_MAX: 'daswetter.0.location_1.ForecastDaily.Day_1.Temperature_Max',
+                ICON4: 'daswetter.0.location_1.ForecastDaily.Day_5.symbol_URL',
+                TEMP_MIN4: 'daswetter.0.location_1.ForecastDaily.Day_5.Temperature_Min',
+                TEMP_MAX4: 'daswetter.0.location_1.ForecastDaily.Day_5.Temperature_Max',
+                LOCATION: 'daswetter.0.location_1.Location',
+                FORECAST_CHART: 'daswetter.0.location_1.URL',
+            },
+            true,
+        );
 
         done();
     });
